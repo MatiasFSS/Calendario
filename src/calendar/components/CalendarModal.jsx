@@ -26,14 +26,14 @@ const customStyles = {
 export const CalendarModal = () => {
 
     const {isDateModalOpen, closeDateModal} = useUiStore()
-    const {activeEvent} = useCalendarStore()
+    const {activeEvent, startSavingEvent} = useCalendarStore()
 
     const [formSubmitted, setformSubmitted] = useState(false);
     
 
     const [formValues, setformValues] = useState({
-        title: 'Matias',
-        notes: "sanchez",
+        title: '',
+        notes: '',
         start: new Date(),
         end: addHours(new Date(), 2)
     });
@@ -75,7 +75,7 @@ export const CalendarModal = () => {
         
     } 
 
-    const onSubmit = (event) => {
+    const onSubmit = async(event) => {
         event.preventDefault()
         setformSubmitted(true)
 
@@ -89,6 +89,9 @@ export const CalendarModal = () => {
         if(formValues.title.length <= 0) return
 
         console.log(formValues)
+        await startSavingEvent(formValues)
+        closeDateModal()
+        setformSubmitted(false)
     }
 
   return (
