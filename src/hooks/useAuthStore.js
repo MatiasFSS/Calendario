@@ -14,7 +14,7 @@ export const useAuthStore = () => {
 
         try {
             const {data} = await calendarApi.post('/auth', {email, password})
-            localStorage.setItem('data', data.token)
+            localStorage.setItem('token', data.token)
             localStorage.setItem('token-init-date', new Date().getTime())
             dispatch(onLogin({name: data.name, uid: data.uid}))
             
@@ -25,7 +25,27 @@ export const useAuthStore = () => {
                 dispatch(clearErrorMessage())
             }, 10);
         }
+    }
 
+    const startRegister = async({name, email, password}) => {
+        dispatch(onChecking())
+
+        try {
+            const {data} = await calendarApi.post('/auth/new', {name, email, password})
+            console.log({data})
+            localStorage.setItem('token', data.token)
+            localStorage.setItem('token-init-date', new Date().getTime())
+            dispatch(onLogin({name: data.name, uid: data.uid}))
+            
+
+        } catch ({response}) {
+
+            console.log(response.data)
+            dispatch(onLogout(response.data?.msg || ''))
+            setTimeout(() => {
+                 dispatch(clearErrorMessage())
+            }, 10);
+        }
 
     }
 
@@ -39,6 +59,7 @@ export const useAuthStore = () => {
 
         //* Metodos
         startLogin,
+        startRegister
     }
 
 }
