@@ -9,3 +9,7 @@
 VITE_API_URL = http://localhost:4000/api
 
 ```
+
+Se realiza el deploy en Railway para poder probar la pagina. **Enlace:** [Calendario React](https://backend-calendario-production-88de.up.railway.app)
+
+En caso de que no funcione el enlace, contactar para hacer el deploy nuevamente.
